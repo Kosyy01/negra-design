@@ -9,10 +9,18 @@ export default function Loader({ onFinish }: { onFinish: () => void }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    // Osoby preferujące ograniczone animacje nie powinny czekać na pełną sekwencję —
+    // skracamy ekran powitalny niemal do minimum.
+    const delay = prefersReducedMotion ? 300 : 2600;
+    const exitDelay = prefersReducedMotion ? 50 : 900;
+
     const timeout = setTimeout(() => {
       setVisible(false);
-      setTimeout(onFinish, 900);
-    }, 2600);
+      setTimeout(onFinish, exitDelay);
+    }, delay);
     return () => clearTimeout(timeout);
   }, [onFinish]);
 
@@ -20,6 +28,9 @@ export default function Loader({ onFinish }: { onFinish: () => void }) {
     <AnimatePresence>
       {visible && (
         <motion.div
+          role="status"
+          aria-live="polite"
+          aria-label="Wczytywanie strony NEGRA DESIGN"
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-graphite-900"
           initial={{ opacity: 1 }}
           exit={{
@@ -46,7 +57,7 @@ export default function Loader({ onFinish }: { onFinish: () => void }) {
             Witamy w
           </motion.p>
 
-          <div className="flex overflow-hidden">
+          <div className="flex overflow-hidden px-6">
             {LETTERS.map((letter, i) => (
               <motion.span
                 key={`${letter}-${i}`}
@@ -57,7 +68,7 @@ export default function Loader({ onFinish }: { onFinish: () => void }) {
                   duration: 0.7,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="font-sora text-4xl font-semibold tracking-wide text-copper sm:text-6xl"
+                className="font-sora font-semibold tracking-wide text-copper text-[clamp(1.75rem,7.5vw,3.75rem)]"
               >
                 {letter === " " ? "\u00A0" : letter}
               </motion.span>

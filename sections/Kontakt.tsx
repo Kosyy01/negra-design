@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Instagram, Linkedin, ArrowUpRight, Check, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Linkedin, ArrowUpRight, Check } from "lucide-react";
 import MagneticButton from "@/ui/MagneticButton";
-import { cn } from "@/lib/utils";
 
 const CONTACT_DETAILS = [
   {
@@ -41,19 +40,6 @@ const fadeUp = {
   }),
 };
 
-// Narożniki jak rejestracyjne znaczniki na planie architektonicznym
-function CornerMarks() {
-  const base = "pointer-events-none absolute h-6 w-6 border-copper/40 sm:h-8 sm:w-8";
-  return (
-    <>
-      <span className={`${base} -left-px -top-px border-l border-t`} />
-      <span className={`${base} -right-px -top-px border-r border-t`} />
-      <span className={`${base} -bottom-px -left-px border-b border-l`} />
-      <span className={`${base} -bottom-px -right-px border-b border-r`} />
-    </>
-  );
-}
-
 export default function Kontakt() {
   const [form, setForm] = useState({ imie: "", email: "", wiadomosc: "" });
   const [sent, setSent] = useState(false);
@@ -71,205 +57,189 @@ export default function Kontakt() {
     setSent(true);
   };
 
-  const inputClass =
-    "w-full rounded-xl border border-bone/12 bg-graphite-900/60 px-4 pb-3 pt-3.5 text-sm text-bone placeholder:text-bone/25 outline-none transition-all duration-300 focus:border-copper/60 focus:bg-graphite-900 sm:text-base";
-
   return (
     <section
       id="kontakt"
-      className="relative w-full overflow-hidden bg-graphite-900 py-28 sm:py-36"
+      className="relative w-full overflow-hidden bg-graphite-900 py-20 sm:py-28 lg:py-36"
     >
       {/* Pionowa "linia pionu" jak w Hero/Loaderze, umieszczona w tle */}
       <div className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-bone/5 lg:block" />
-      {/* Wygaszony wodny znak w tle, echo Footera */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-[8vw] top-10 select-none font-sora text-[16vw] font-semibold leading-none tracking-tight text-bone/[0.02] sm:text-[11vw]"
-      >
-        06
-      </span>
+      {/* Delikatna poświata w tle za kartą formularza — dodaje głębi bez odwracania uwagi */}
+      <div className="pointer-events-none absolute right-0 top-1/4 -z-0 h-[28rem] w-[28rem] rounded-full bg-copper/[0.06] blur-[120px]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 sm:px-8">
+      <div className="relative mx-auto grid max-w-7xl gap-14 px-6 sm:px-8 lg:grid-cols-2 lg:gap-10">
+        {/* Kolumna informacyjna */}
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mx-auto mb-16 max-w-2xl text-center"
+          viewport={{ once: true, amount: 0.3 }}
+          className="flex flex-col justify-center"
         >
           <motion.span variants={fadeUp} custom={0} className="annotation text-copper">
-            06 — Rozpocznijmy projekt
+            Rozpocznijmy projekt
           </motion.span>
+
           <motion.h2
             variants={fadeUp}
             custom={1}
-            className="mt-6 font-sora text-4xl font-light leading-[1.15] text-bone sm:text-5xl"
+            className="mt-6 max-w-md font-sora text-4xl font-light leading-[1.15] text-bone sm:text-5xl"
           >
             Porozmawiajmy o Twojej inwestycji.
           </motion.h2>
+
+          <motion.p
+            variants={fadeUp}
+            custom={2}
+            className="mt-6 max-w-md text-balance text-sm leading-relaxed text-bone-dim sm:text-base"
+          >
+            Niezależnie od etapu, na którym jesteś — od pierwszego szkicu po
+            gotową działkę — chętnie porozmawiamy o zakresie i możliwościach
+            projektu. Odpowiadamy w ciągu 48 godzin roboczych.
+          </motion.p>
+
+          <motion.ul variants={fadeUp} custom={3} className="mt-10 flex flex-col gap-5">
+            {CONTACT_DETAILS.map(({ icon: Icon, label, value, href }) => {
+              const content = (
+                <span className="flex items-center gap-4">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-bone/15 text-copper">
+                    <Icon className="h-4 w-4" strokeWidth={1.5} />
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="annotation text-bone/40">{label}</span>
+                    <span className="text-sm text-bone sm:text-base">{value}</span>
+                  </span>
+                </span>
+              );
+              return (
+                <li key={label}>
+                  {href ? (
+                    <a href={href} data-cursor-hover className="group inline-flex">
+                      {content}
+                    </a>
+                  ) : (
+                    content
+                  )}
+                </li>
+              );
+            })}
+          </motion.ul>
+
+          <motion.div variants={fadeUp} custom={4} className="mt-10 flex items-center gap-4">
+            {SOCIALS.map(({ icon: Icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                aria-label={label}
+                data-cursor-hover
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors duration-300 hover:border-copper hover:text-copper"
+              >
+                <Icon className="h-4 w-4" strokeWidth={1.5} />
+              </a>
+            ))}
+          </motion.div>
         </motion.div>
 
-        {/* Ramka jak arkusz projektowy, ze znacznikami rejestracyjnymi w rogach */}
-        <div className="relative rounded-[1.75rem] border border-bone/10 bg-graphite-800/30 p-8 backdrop-blur-sm sm:rounded-[2.25rem] sm:p-12 lg:p-16">
-          <CornerMarks />
+        {/* Kolumna formularza */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative flex flex-col justify-center"
+        >
+          <div className="relative rounded-3xl border border-bone/10 bg-graphite-800/40 p-6 backdrop-blur-sm sm:p-8 lg:p-10">
+            {/* Narożny "znacznik pomiarowy" nawiązujący do motywu technicznego rysunku */}
+            <span className="pointer-events-none absolute -left-px -top-px h-6 w-6 rounded-tl-3xl border-l border-t border-copper/40" />
+            <span className="pointer-events-none absolute -bottom-px -right-px h-6 w-6 rounded-br-3xl border-b border-r border-copper/40" />
 
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
-            {/* Kolumna informacyjna */}
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.3 }}
-              className="flex flex-col justify-center"
-            >
-              <motion.p
-                variants={fadeUp}
-                custom={0}
-                className="max-w-md text-balance text-sm leading-relaxed text-bone-dim sm:text-base"
-              >
-                Niezależnie od etapu, na którym jesteś — od pierwszego szkicu po
-                gotową działkę — chętnie porozmawiamy o zakresie i możliwościach
-                projektu.
-              </motion.p>
-
-              <motion.div
-                variants={fadeUp}
-                custom={1}
-                className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-copper/30 bg-copper/10 px-4 py-2"
-              >
-                <Clock className="h-3.5 w-3.5 text-copper" strokeWidth={1.5} />
-                <span className="text-xs text-bone/80 sm:text-sm">
-                  Odpowiadamy w ciągu 48 godzin roboczych
+            {sent ? (
+              <div className="flex flex-col items-start gap-4 py-6">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-copper text-graphite-950">
+                  <Check className="h-5 w-5" strokeWidth={2} />
                 </span>
-              </motion.div>
-
-              <motion.ul variants={fadeUp} custom={2} className="mt-10 flex flex-col gap-2">
-                {CONTACT_DETAILS.map(({ icon: Icon, label, value, href }) => {
-                  const content = (
-                    <span className="flex items-center gap-4 rounded-2xl px-3 py-3 transition-colors duration-300 group-hover:bg-bone/[0.03]">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-bone/15 text-copper transition-colors duration-300 group-hover:border-copper">
-                        <Icon className="h-4 w-4" strokeWidth={1.5} />
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="annotation text-bone/40">{label}</span>
-                        <span className="text-sm text-bone sm:text-base">{value}</span>
-                      </span>
+                <p className="font-sora text-xl font-light text-bone">
+                  Wiadomość została wysłana.
+                </p>
+                <p className="text-sm leading-relaxed text-bone-dim">
+                  Dziękujemy za kontakt — odezwiemy się najszybciej, jak to
+                  możliwe.
+                </p>
+                <button
+                  onClick={() => setSent(false)}
+                  data-cursor-hover
+                  className="mt-2 text-xs uppercase tracking-widest2 text-bone-dim/70 underline-offset-4 transition-colors hover:text-copper hover:underline"
+                >
+                  Wyślij kolejną wiadomość
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-7 sm:gap-8" noValidate>
+                <div className="grid gap-7 sm:grid-cols-2 sm:gap-8">
+                  <label className="group relative flex flex-col">
+                    <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
+                      Imię i nazwisko
                     </span>
-                  );
-                  return (
-                    <li key={label}>
-                      {href ? (
-                        <a href={href} data-cursor-hover className="group -mx-3 inline-flex w-[calc(100%+1.5rem)]">
-                          {content}
-                        </a>
-                      ) : (
-                        <span className="group -mx-3 inline-flex w-[calc(100%+1.5rem)]">{content}</span>
-                      )}
-                    </li>
-                  );
-                })}
-              </motion.ul>
-
-              <motion.div variants={fadeUp} custom={3} className="mt-8 flex items-center gap-4 border-t border-bone/10 pt-8">
-                <span className="annotation text-bone/40">Obserwuj</span>
-                {SOCIALS.map(({ icon: Icon, label, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    data-cursor-hover
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors duration-300 hover:border-copper hover:text-copper"
-                  >
-                    <Icon className="h-4 w-4" strokeWidth={1.5} />
-                  </a>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            {/* Kolumna formularza */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative flex flex-col justify-center rounded-2xl border border-bone/10 bg-graphite-900/40 p-6 sm:p-8"
-            >
-              {sent ? (
-                <div className="flex flex-col items-start gap-4 py-6">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-copper text-graphite-950">
-                    <Check className="h-5 w-5" strokeWidth={2} />
-                  </span>
-                  <p className="font-sora text-xl font-light text-bone">
-                    Wiadomość została wysłana.
-                  </p>
-                  <p className="text-sm text-bone-dim">
-                    Dziękujemy za kontakt — odezwiemy się najszybciej, jak to możliwe.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <label className="group relative flex flex-col gap-1.5">
-                      <span className="annotation text-bone/40 transition-colors group-focus-within:text-copper">
-                        Imię i nazwisko
-                      </span>
-                      <input
-                        type="text"
-                        name="imie"
-                        required
-                        value={form.imie}
-                        onChange={handleChange}
-                        placeholder="Jan Kowalski"
-                        className={inputClass}
-                      />
-                    </label>
-
-                    <label className="group relative flex flex-col gap-1.5">
-                      <span className="annotation text-bone/40 transition-colors group-focus-within:text-copper">
-                        E-mail
-                      </span>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="jan@przyklad.pl"
-                        className={inputClass}
-                      />
-                    </label>
-                  </div>
-
-                  <label className="group relative flex flex-col gap-1.5">
-                    <span className="annotation text-bone/40 transition-colors group-focus-within:text-copper">
-                      Wiadomość
-                    </span>
-                    <textarea
-                      name="wiadomosc"
+                    <input
+                      type="text"
+                      name="imie"
                       required
-                      rows={4}
-                      value={form.wiadomosc}
+                      autoComplete="name"
+                      value={form.imie}
                       onChange={handleChange}
-                      placeholder="Opowiedz nam krótko o swoim projekcie..."
-                      className={cn("resize-none", inputClass)}
+                      placeholder="Jan Kowalski"
+                      className="border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
                     />
                   </label>
 
-                  <div className="mt-2 flex flex-col-reverse items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs leading-relaxed text-bone-dim/70">
-                      Wysyłając formularz akceptujesz przetwarzanie danych w celu
-                      kontaktu w sprawie zapytania.
-                    </p>
-                    <MagneticButton className="w-full shrink-0 sm:w-auto">
-                      <span className="flex items-center justify-center gap-2">
-                        Wyślij
-                        <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
-                      </span>
-                    </MagneticButton>
-                  </div>
-                </form>
-              )}
-            </motion.div>
+                  <label className="group relative flex flex-col">
+                    <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
+                      E-mail
+                    </span>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      autoComplete="email"
+                      inputMode="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="jan@przyklad.pl"
+                      className="border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
+                    />
+                  </label>
+                </div>
+
+                <label className="group relative flex flex-col">
+                  <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
+                    Wiadomość
+                  </span>
+                  <textarea
+                    name="wiadomosc"
+                    required
+                    rows={4}
+                    value={form.wiadomosc}
+                    onChange={handleChange}
+                    placeholder="Opowiedz nam krótko o swoim projekcie..."
+                    className="resize-none border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
+                  />
+                </label>
+
+                <div className="mt-2 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                  <p className="text-xs leading-relaxed text-bone-dim/70">
+                    Wysyłając formularz akceptujesz przetwarzanie danych w
+                    celu kontaktu w sprawie zapytania.
+                  </p>
+                  <MagneticButton className="shrink-0 justify-center !px-9 sm:w-auto">
+                    <span className="flex items-center justify-center gap-2">
+                      Wyślij
+                      <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+                    </span>
+                  </MagneticButton>
+                </div>
+              </form>
+            )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
