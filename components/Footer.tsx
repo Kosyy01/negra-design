@@ -1,11 +1,86 @@
 "use client";
 
-import { Instagram, Linkedin, Mail, ArrowUp } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin, ArrowUp, ArrowUpRight } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navigation";
+import MagneticButton from "@/ui/MagneticButton";
 
 const SOCIALS = [
   { icon: Instagram, label: "Instagram", href: "#" },
   { icon: Linkedin, label: "LinkedIn", href: "#" },
+];
+
+/** Pola „tabliczki rysunkowej” — jak w legendzie projektu architektonicznego. */
+const SHEET_FIELDS = [
+  {
+    label: "Nawigacja",
+    content: (
+      <ul className="flex flex-col gap-2.5">
+        {NAV_LINKS.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              data-cursor-hover
+              className="text-sm text-bone/80 transition-colors hover:text-copper"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    label: "Kontakt",
+    content: (
+      <div className="flex flex-col gap-2.5">
+        <a
+          href="mailto:kontakt@negradesign.pl"
+          data-cursor-hover
+          className="flex items-start gap-2 text-sm text-bone/80 transition-colors hover:text-copper"
+        >
+          <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0 text-copper/70" strokeWidth={1.5} />
+          <span className="break-words">kontakt@negradesign.pl</span>
+        </a>
+        <span className="flex items-start gap-2 text-sm text-bone/80">
+          <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-copper/70" strokeWidth={1.5} />
+          Warszawa, Polska
+        </span>
+      </div>
+    ),
+  },
+  {
+    label: "Godziny pracy",
+    content: (
+      <div className="flex flex-col gap-2.5 text-sm text-bone/80">
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-bone-dim">Pon–Pt</span>
+          <span>9:00–17:00</span>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-bone-dim">Sob–Nd</span>
+          <span>Zamknięte</span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    label: "Social",
+    content: (
+      <div className="flex items-center gap-3">
+        {SOCIALS.map(({ icon: Icon, label, href }) => (
+          <a
+            key={label}
+            href={href}
+            aria-label={label}
+            data-cursor-hover
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors duration-300 hover:border-copper hover:text-copper"
+          >
+            <Icon className="h-4 w-4" strokeWidth={1.5} />
+          </a>
+        ))}
+      </div>
+    ),
+  },
 ];
 
 export default function Footer() {
@@ -16,95 +91,61 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-graphite-950">
-      {/* Cienka miedziana linia otwierająca sekcję, jak krawędź na rysunku technicznym */}
+    <footer className="relative overflow-hidden border-t border-bone/10 bg-graphite-950">
+      {/* Cienka miedziana linia otwierająca sekcję */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-copper/50 to-transparent"
       />
-
-      {/* Wielki, wygaszony wodny znak — echo loga w tle, jak pieczęć na rysunku technicznym */}
-      <span
+      {/* Siatka w tle, echo motywu z menu mobilnego */}
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-6 left-1/2 w-full -translate-x-1/2 select-none text-center font-sora text-[22vw] font-semibold leading-none tracking-tight text-bone/[0.025] sm:-bottom-10 sm:text-[15vw]"
-      >
-        NEGRA
-      </span>
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #EDE8E1 1px, transparent 1px), linear-gradient(to bottom, #EDE8E1 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+        }}
+      />
 
-      <div className="relative mx-auto max-w-7xl px-5 pb-9 pt-16 sm:px-8 sm:pb-10 sm:pt-20">
-        <span className="annotation text-copper/70">Pracownia architektoniczna</span>
-
-        <div className="mt-8 grid gap-10 sm:mt-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4 lg:gap-14">
-          {/* Marka */}
-          <div className="sm:col-span-2">
+      <div className="relative mx-auto max-w-7xl px-5 pb-9 pt-16 sm:px-8 sm:pb-10 sm:pt-24">
+        {/* Nagłówek arkusza: marka + skrócone CTA, jak nagłówek tabliczki rysunkowej */}
+        <div className="flex flex-col justify-between gap-10 border-b border-bone/10 pb-12 sm:pb-14 lg:flex-row lg:items-end">
+          <div>
+            <span className="annotation text-copper/70">Pracownia architektoniczna</span>
             <a
               href="#start"
               data-cursor-hover
-              className="font-sora text-xl font-semibold tracking-wide text-bone"
+              className="mt-5 block font-sora text-4xl font-light leading-[1.05] tracking-tight text-bone sm:text-5xl lg:text-6xl"
             >
-              NEGRA<span className="text-copper">DESIGN</span>
+              NEGRA<span className="font-semibold text-copper">DESIGN</span>
             </a>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone-dim">
-              Pracownia architektoniczna specjalizująca się w projektowaniu,
-              wizualizacjach 3D i modelowaniu — od pierwszego szkicu po nadzór
-              nad realizacją.
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-bone-dim">
+              Projektowanie, wizualizacje 3D i nadzór nad realizacją — od
+              pierwszego szkicu po klucze do drzwi.
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              {SOCIALS.map(({ icon: Icon, label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  data-cursor-hover
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors duration-300 hover:border-copper hover:text-copper"
-                >
-                  <Icon className="h-4 w-4" strokeWidth={1.5} />
-                </a>
-              ))}
-            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 sm:col-span-2 sm:grid-cols-2 sm:gap-8 lg:col-span-2">
-            {/* Nawigacja */}
-            <div>
-              <span className="annotation text-bone/40">Nawigacja</span>
-              <ul className="mt-5 flex flex-col gap-3">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      data-cursor-hover
-                      className="text-sm text-bone/80 transition-colors hover:text-copper"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <MagneticButton href="#kontakt" className="shrink-0">
+            <span className="flex items-center gap-2">
+              Rozpocznij projekt
+              <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
+            </span>
+          </MagneticButton>
+        </div>
 
-            {/* Kontakt */}
-            <div>
-              <span className="annotation text-bone/40">Kontakt</span>
-              <ul className="mt-5 flex flex-col gap-3">
-                <li>
-                  <a
-                    href="mailto:kontakt@negradesign.pl"
-                    data-cursor-hover
-                    className="flex items-start gap-2 text-sm text-bone/80 transition-colors hover:text-copper"
-                  >
-                    <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
-                    <span className="break-words">kontakt@negradesign.pl</span>
-                  </a>
-                </li>
-                <li className="text-sm text-bone/80">Warszawa, Polska</li>
-              </ul>
+        {/* Tabliczka rysunkowa — pola informacyjne oddzielone liniami, jak w legendzie projektu */}
+        <div className="grid divide-y divide-bone/10 border-b border-bone/10 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
+          {SHEET_FIELDS.map((field) => (
+            <div key={field.label} className="py-8 sm:px-6 sm:py-10 sm:first:pl-0 lg:px-8">
+              <span className="annotation text-bone/40">{field.label}</span>
+              <div className="mt-5">{field.content}</div>
             </div>
-          </div>
+          ))}
         </div>
 
         {/* Dolny pasek */}
-        <div className="mt-12 flex flex-col-reverse items-center gap-5 border-t border-bone/10 pt-7 sm:mt-16 sm:flex-row sm:justify-between sm:gap-6 sm:pt-8">
+        <div className="mt-9 flex flex-col-reverse items-center gap-5 sm:mt-10 sm:flex-row sm:justify-between sm:gap-6">
           <p className="text-center text-xs text-bone-dim/70 sm:text-left">
             © {year} NEGRA DESIGN. Wszystkie prawa zastrzeżone.
           </p>
@@ -113,11 +154,18 @@ export default function Footer() {
             onClick={scrollToTop}
             data-cursor-hover
             aria-label="Wróć na górę strony"
-            className="group flex items-center gap-2 text-xs uppercase tracking-widest2 text-bone-dim/70 transition-colors hover:text-copper"
+            className="group flex items-center gap-3 text-xs uppercase tracking-widest2 text-bone-dim/70 transition-colors hover:text-copper"
           >
             Na górę
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 transition-colors duration-300 group-hover:border-copper group-hover:text-copper">
-              <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.5} />
+            <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-bone/15 transition-colors duration-300 group-hover:border-copper">
+              <ArrowUp
+                className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-8 group-hover:translate-x-8"
+                strokeWidth={1.5}
+              />
+              <ArrowUp
+                className="absolute h-3.5 w-3.5 -translate-x-8 translate-y-8 transition-transform duration-300 group-hover:translate-x-0 group-hover:translate-y-0"
+                strokeWidth={1.5}
+              />
             </span>
           </button>
         </div>

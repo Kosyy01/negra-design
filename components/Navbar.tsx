@@ -14,7 +14,7 @@ const SOCIALS = [
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Przycisk hamburgera — trzy linie płynnie przekształcające się w X. */
+/** Przycisk hamburgera — trzy grube, proste paski. Bez okręgu, bez obrysu. */
 function HamburgerButton({
   open,
   onClick,
@@ -23,7 +23,7 @@ function HamburgerButton({
   onClick: () => void;
 }) {
   const bar =
-    "absolute left-1/2 h-px w-5 -translate-x-1/2 bg-bone transition-colors duration-300 group-hover:bg-copper";
+    "absolute left-0 h-[3px] w-full rounded-full bg-bone transition-colors duration-300 group-hover:bg-copper";
 
   return (
     <button
@@ -31,25 +31,34 @@ function HamburgerButton({
       onClick={onClick}
       aria-label={open ? "Zamknij menu" : "Otwórz menu"}
       aria-expanded={open}
-      className="group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-bone/15 text-bone transition-colors duration-300 hover:border-copper lg:hidden"
+      className="group relative -mr-2 flex h-11 w-11 shrink-0 items-center justify-center lg:hidden"
     >
-      <span className="relative block h-4 w-5">
+      <span className="relative block h-[15px] w-6">
         <motion.span
           className={bar}
-          style={{ top: 0 }}
-          animate={open ? { top: "50%", rotate: 45 } : { top: "0%", rotate: 0 }}
+          initial={false}
+          animate={
+            open
+              ? { top: "50%", y: "-50%", rotate: 45 }
+              : { top: "0%", y: "0%", rotate: 0 }
+          }
           transition={{ duration: 0.3, ease: EASE }}
         />
         <motion.span
           className={bar}
-          style={{ top: "50%" }}
+          style={{ top: "50%", y: "-50%" }}
+          initial={false}
           animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.2, ease: EASE }}
         />
         <motion.span
           className={bar}
-          style={{ top: "100%" }}
-          animate={open ? { top: "50%", rotate: -45 } : { top: "100%", rotate: 0 }}
+          initial={false}
+          animate={
+            open
+              ? { top: "50%", y: "-50%", rotate: -45 }
+              : { top: "100%", y: "-100%", rotate: 0 }
+          }
           transition={{ duration: 0.3, ease: EASE }}
         />
       </span>
@@ -67,29 +76,57 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Blokada scrolla tła + zamykanie klawiszem Escape, gdy menu mobilne jest otwarte.
+  // Blokada scrolla tła (odporna na iOS Safari) + zamykanie klawiszem Escape,
+  // gdy menu mobilne jest otwarte. Zamykamy też menu automatycznie po
+  // przełączeniu na szerszy, desktopowy układ.
   useEffect(() => {
     if (!mobileOpen) return;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const previous = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+    };
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileOpen(false);
     };
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setMobileOpen(false);
+    };
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      body.style.position = previous.position;
+      body.style.top = previous.top;
+      body.style.left = previous.left;
+      body.style.right = previous.right;
+      body.style.width = previous.width;
+      window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
     };
   }, [mobileOpen]);
 
   return (
     <header
+      style={{
+        paddingTop: `calc(env(safe-area-inset-top) + ${scrolled ? "0.75rem" : "1rem"})`,
+      }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled ? "py-3" : "py-4 sm:py-6"
+        scrolled ? "pb-3" : "pb-4 sm:pb-6"
       )}
     >
       <div
@@ -144,7 +181,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: EASE }}
-            className="fixed inset-0 z-[90] flex flex-col overflow-hidden bg-graphite-950/98 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-[90] flex h-[100dvh] flex-col overflow-hidden bg-graphite-950/98 backdrop-blur-xl lg:hidden"
           >
             {/* Delikatna siatka w tle, w duchu rysunku technicznego */}
             <div
@@ -166,7 +203,10 @@ export default function Navbar() {
               className="pointer-events-none absolute bottom-4 right-4 h-6 w-6 border-b border-r border-copper/40 sm:bottom-6 sm:right-6"
             />
 
-            <div className="relative flex items-center justify-between px-4 pb-2 pt-4 sm:px-6">
+            <div
+              style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)" }}
+              className="relative flex shrink-0 items-center justify-between px-4 pb-2 sm:px-6"
+            >
               <a
                 href="#start"
                 onClick={() => setMobileOpen(false)}
@@ -177,7 +217,10 @@ export default function Navbar() {
               <HamburgerButton open={mobileOpen} onClick={() => setMobileOpen(false)} />
             </div>
 
-            <div className="relative flex flex-1 flex-col justify-between overflow-y-auto px-4 pb-8 pt-6 sm:px-6">
+            <div
+              style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 2rem)" }}
+              className="relative flex flex-1 flex-col justify-between overflow-y-auto px-4 pt-6 sm:px-6"
+            >
               <nav className="flex flex-col">
                 {NAV_LINKS.map((link, i) => (
                   <motion.a
