@@ -17,18 +17,26 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-graphite-950">
+      {/* Cienka miedziana linia otwierająca sekcję, jak krawędź na rysunku technicznym */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-copper/50 to-transparent"
+      />
+
       {/* Wielki, wygaszony wodny znak — echo loga w tle, jak pieczęć na rysunku technicznym */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-10 left-1/2 w-full -translate-x-1/2 select-none text-center font-sora text-[18vw] font-semibold leading-none tracking-tight text-bone/[0.025] sm:text-[15vw]"
+        className="pointer-events-none absolute -bottom-6 left-1/2 w-full -translate-x-1/2 select-none text-center font-sora text-[22vw] font-semibold leading-none tracking-tight text-bone/[0.025] sm:-bottom-10 sm:text-[15vw]"
       >
         NEGRA
       </span>
 
-      <div className="relative mx-auto max-w-7xl px-6 pb-10 pt-20 sm:px-8">
-        <div className="grid gap-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="relative mx-auto max-w-7xl px-5 pb-9 pt-16 sm:px-8 sm:pb-10 sm:pt-20">
+        <span className="annotation text-copper/70">Pracownia architektoniczna</span>
+
+        <div className="mt-8 grid gap-10 sm:mt-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4 lg:gap-14">
           {/* Marka */}
-          <div className="lg:col-span-2">
+          <div className="sm:col-span-2">
             <a
               href="#start"
               data-cursor-hover
@@ -56,46 +64,48 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nawigacja */}
-          <div>
-            <span className="annotation text-bone/40">Nawigacja</span>
-            <ul className="mt-5 flex flex-col gap-3">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
+          <div className="grid grid-cols-2 gap-10 sm:col-span-2 sm:grid-cols-2 sm:gap-8 lg:col-span-2">
+            {/* Nawigacja */}
+            <div>
+              <span className="annotation text-bone/40">Nawigacja</span>
+              <ul className="mt-5 flex flex-col gap-3">
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      data-cursor-hover
+                      className="text-sm text-bone/80 transition-colors hover:text-copper"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Kontakt */}
+            <div>
+              <span className="annotation text-bone/40">Kontakt</span>
+              <ul className="mt-5 flex flex-col gap-3">
+                <li>
                   <a
-                    href={link.href}
+                    href="mailto:kontakt@negradesign.pl"
                     data-cursor-hover
-                    className="text-sm text-bone/80 transition-colors hover:text-copper"
+                    className="flex items-start gap-2 text-sm text-bone/80 transition-colors hover:text-copper"
                   >
-                    {link.label}
+                    <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
+                    <span className="break-words">kontakt@negradesign.pl</span>
                   </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Kontakt */}
-          <div>
-            <span className="annotation text-bone/40">Kontakt</span>
-            <ul className="mt-5 flex flex-col gap-3">
-              <li>
-                <a
-                  href="mailto:kontakt@negradesign.pl"
-                  data-cursor-hover
-                  className="flex items-center gap-2 text-sm text-bone/80 transition-colors hover:text-copper"
-                >
-                  <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />
-                  kontakt@negradesign.pl
-                </a>
-              </li>
-              <li className="text-sm text-bone/80">Warszawa, Polska</li>
-            </ul>
+                <li className="text-sm text-bone/80">Warszawa, Polska</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Dolny pasek */}
-        <div className="mt-16 flex flex-col-reverse items-center justify-between gap-6 border-t border-bone/10 pt-8 sm:flex-row">
-          <p className="text-xs text-bone-dim/70">
+        <div className="mt-12 flex flex-col-reverse items-center gap-5 border-t border-bone/10 pt-7 sm:mt-16 sm:flex-row sm:justify-between sm:gap-6 sm:pt-8">
+          <p className="text-center text-xs text-bone-dim/70 sm:text-left">
             © {year} NEGRA DESIGN. Wszystkie prawa zastrzeżone.
           </p>
 
@@ -106,7 +116,7 @@ export default function Footer() {
             className="group flex items-center gap-2 text-xs uppercase tracking-widest2 text-bone-dim/70 transition-colors hover:text-copper"
           >
             Na górę
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-bone/15 transition-colors duration-300 group-hover:border-copper group-hover:text-copper">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 transition-colors duration-300 group-hover:border-copper group-hover:text-copper">
               <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.5} />
             </span>
           </button>
