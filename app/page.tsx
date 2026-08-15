@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Hero from "@/sections/Hero";
 import ONas from "@/sections/ONas";
+import Opinie from "@/sections/Opinie";
 import Kontakt from "@/sections/Kontakt";
 
 export default function Home() {
@@ -18,8 +19,9 @@ export default function Home() {
       <main>
         <Hero />
         <ONas />
-        {/* Kolejne sekcje (Usługi, Realizacje, Opinie, FAQ)
+        {/* Kolejne sekcje (Usługi, Realizacje, FAQ)
             dołączymy w kolejnych etapach. */}
+        <Opinie />
         <Kontakt />
       </main>
       <Footer />

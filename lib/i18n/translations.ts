@@ -10,6 +10,12 @@ interface StatItem {
   label: string;
 }
 
+interface TestimonialItem {
+  name: string;
+  role: string;
+  quote: string;
+}
+
 export interface Dictionary {
   meta: { htmlLang: string };
   common: { bookConsultation: string; changeLanguage: string; scroll: string };
@@ -35,6 +41,15 @@ export interface Dictionary {
     imageAlt: string;
     stats: StatItem[];
     values: ValueItem[];
+  };
+  opinie: {
+    badge: string;
+    heading: string;
+    paragraph: string;
+    prevAria: string;
+    nextAria: string;
+    dotAria: string;
+    testimonials: TestimonialItem[];
   };
   kontakt: {
     badge: string;
@@ -127,6 +142,53 @@ export const dictionary: Record<Locale, Dictionary> = {
         },
       ],
     },
+    opinie: {
+      badge: "Opinie klientów",
+      heading: "Zaufali nam przy swoich najważniejszych inwestycjach.",
+      paragraph:
+        "Nie obiecujemy złotych gór — pokazujemy, co mówią osoby, z którymi już zrealizowaliśmy projekt.",
+      prevAria: "Poprzednie opinie",
+      nextAria: "Następne opinie",
+      dotAria: "Przejdź do grupy opinii",
+      testimonials: [
+        {
+          name: "Anna Kowalska",
+          role: "Dom jednorodzinny, Konstancin",
+          quote:
+            "Precyzja i komunikacja na najwyższym poziomie. Każdy etap był konsultowany, a efekt przerósł nasze oczekiwania.",
+        },
+        {
+          name: "Michał Zieliński",
+          role: "Inwestor, lokal usługowy Warszawa",
+          quote:
+            "Zespół NEGRA DESIGN zaproponował rozwiązania, o których sami byśmy nie pomyśleli. Nadzór nad realizacją bezcenny.",
+        },
+        {
+          name: "Katarzyna Wójcik",
+          role: "Wnętrza mieszkania, Wilanów",
+          quote:
+            "Od pierwszej wizualizacji po ostatni detal — wszystko spójne. Polecam każdemu, kto ceni rzetelność.",
+        },
+        {
+          name: "Tomasz Nowak",
+          role: "Dom letniskowy, Mazury",
+          quote:
+            "Projekt idealnie dopasowany do działki i otoczenia. Architekci naprawdę słuchają, czego potrzebuje inwestor.",
+        },
+        {
+          name: "Agnieszka Lis",
+          role: "Apartament, Kraków",
+          quote:
+            "Zaskoczyła mnie liczba wariantów, które przygotowali zanim wybraliśmy finalną koncepcję. Warto było czekać.",
+        },
+        {
+          name: "Paweł Krawczyk",
+          role: "Biurowiec, Wrocław",
+          quote:
+            "Profesjonalne podejście do harmonogramu i budżetu. Żadnych niespodzianek na etapie realizacji.",
+        },
+      ],
+    },
     kontakt: {
       badge: "Rozpocznijmy projekt",
       heading: "Porozmawiajmy o Twojej inwestycji.",
@@ -209,6 +271,53 @@ export const dictionary: Record<Locale, Dictionary> = {
         {
           title: "Support to the end",
           desc: "We stay with the investment from the first sketch through to the building handover.",
+        },
+      ],
+    },
+    opinie: {
+      badge: "Client reviews",
+      heading: "Trusted with our clients' most important investments.",
+      paragraph:
+        "We won't promise the world — here's what the people we've already worked with have to say.",
+      prevAria: "Previous reviews",
+      nextAria: "Next reviews",
+      dotAria: "Go to review group",
+      testimonials: [
+        {
+          name: "Emily Carter",
+          role: "Private residence, Surrey",
+          quote:
+            "Precision and communication at the highest level. Every stage was discussed with us, and the result exceeded our expectations.",
+        },
+        {
+          name: "James Whitfield",
+          role: "Investor, retail unit, London",
+          quote:
+            "The NEGRA DESIGN team proposed solutions we wouldn't have thought of ourselves. Their construction supervision was invaluable.",
+        },
+        {
+          name: "Charlotte Bennett",
+          role: "Apartment interior, Bath",
+          quote:
+            "From the first visualisation to the last detail — everything was consistent. I'd recommend them to anyone who values reliability.",
+        },
+        {
+          name: "Oliver Hayes",
+          role: "Holiday home, Cornwall",
+          quote:
+            "The design fit the plot and its surroundings perfectly. The architects genuinely listen to what the client needs.",
+        },
+        {
+          name: "Sophie Adams",
+          role: "Apartment, Edinburgh",
+          quote:
+            "I was surprised by how many options they prepared before we settled on the final concept. It was worth the wait.",
+        },
+        {
+          name: "Daniel Fletcher",
+          role: "Office building, Manchester",
+          quote:
+            "A professional approach to schedule and budget. No surprises during construction.",
         },
       ],
     },
@@ -297,6 +406,53 @@ export const dictionary: Record<Locale, Dictionary> = {
         },
       ],
     },
+    opinie: {
+      badge: "Client reviews",
+      heading: "Trusted with our clients' most important investments.",
+      paragraph:
+        "We won't promise the world — here's what the people we've already worked with have to say.",
+      prevAria: "Previous reviews",
+      nextAria: "Next reviews",
+      dotAria: "Go to review group",
+      testimonials: [
+        {
+          name: "Emily Carter",
+          role: "Private residence, Austin",
+          quote:
+            "Precision and communication at the highest level. Every stage was discussed with us, and the result exceeded our expectations.",
+        },
+        {
+          name: "James Whitfield",
+          role: "Investor, retail unit, Chicago",
+          quote:
+            "The NEGRA DESIGN team proposed solutions we wouldn't have thought of ourselves. Their construction supervision was invaluable.",
+        },
+        {
+          name: "Charlotte Bennett",
+          role: "Apartment interior, Denver",
+          quote:
+            "From the first visualization to the last detail — everything was consistent. I'd recommend them to anyone who values reliability.",
+        },
+        {
+          name: "Oliver Hayes",
+          role: "Vacation home, Lake Tahoe",
+          quote:
+            "The design fit the lot and its surroundings perfectly. The architects genuinely listen to what the client needs.",
+        },
+        {
+          name: "Sophie Adams",
+          role: "Apartment, Seattle",
+          quote:
+            "I was surprised by how many options they prepared before we settled on the final concept. It was worth the wait.",
+        },
+        {
+          name: "Daniel Fletcher",
+          role: "Office building, Boston",
+          quote:
+            "A professional approach to schedule and budget. No surprises during construction.",
+        },
+      ],
+    },
     kontakt: {
       badge: "Let's start your project",
       heading: "Let's talk about your investment.",
@@ -379,6 +535,53 @@ export const dictionary: Record<Locale, Dictionary> = {
         {
           title: "Begleitung bis zum Schluss",
           desc: "Wir begleiten das Projekt vom ersten Entwurf bis zur Bauabnahme.",
+        },
+      ],
+    },
+    opinie: {
+      badge: "Kundenstimmen",
+      heading: "Vertraut bei den wichtigsten Bauvorhaben unserer Kunden.",
+      paragraph:
+        "Wir versprechen nichts Unmögliches — hier ist, was die Menschen sagen, mit denen wir bereits zusammengearbeitet haben.",
+      prevAria: "Vorherige Bewertungen",
+      nextAria: "Nächste Bewertungen",
+      dotAria: "Zur Bewertungsgruppe wechseln",
+      testimonials: [
+        {
+          name: "Anna Berger",
+          role: "Einfamilienhaus, München",
+          quote:
+            "Präzision und Kommunikation auf höchstem Niveau. Jede Phase wurde mit uns abgestimmt, das Ergebnis übertraf unsere Erwartungen.",
+        },
+        {
+          name: "Michael Schneider",
+          role: "Investor, Gewerbefläche, Berlin",
+          quote:
+            "Das Team von NEGRA DESIGN schlug Lösungen vor, an die wir selbst nicht gedacht hätten. Die Bauüberwachung war unbezahlbar.",
+        },
+        {
+          name: "Katharina Wolf",
+          role: "Wohnungsinnenausbau, Hamburg",
+          quote:
+            "Von der ersten Visualisierung bis ins letzte Detail — alles stimmig. Ich empfehle sie jedem, der Zuverlässigkeit schätzt.",
+        },
+        {
+          name: "Thomas Hoffmann",
+          role: "Ferienhaus, Bodensee",
+          quote:
+            "Der Entwurf passte perfekt zum Grundstück und seiner Umgebung. Die Architekten hören wirklich zu, was der Investor braucht.",
+        },
+        {
+          name: "Julia Krause",
+          role: "Apartment, Köln",
+          quote:
+            "Ich war überrascht, wie viele Varianten sie vorbereitet haben, bevor wir uns für das finale Konzept entschieden. Es hat sich gelohnt.",
+        },
+        {
+          name: "Paul Richter",
+          role: "Bürogebäude, Frankfurt",
+          quote:
+            "Professioneller Umgang mit Zeitplan und Budget. Keine Überraschungen während der Bauphase.",
         },
       ],
     },
