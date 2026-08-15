@@ -180,32 +180,12 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="fixed inset-0 z-[90] flex h-[100dvh] flex-col overflow-hidden bg-graphite-950/98 backdrop-blur-xl lg:hidden"
+            transition={{ duration: 0.3, ease: EASE }}
+            className="fixed inset-0 z-[90] flex h-[100dvh] flex-col overflow-y-auto bg-graphite-950/98 backdrop-blur-xl lg:hidden"
           >
-            {/* Delikatna siatka w tle, w duchu rysunku technicznego */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-[0.05]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, #EDE8E1 1px, transparent 1px), linear-gradient(to bottom, #EDE8E1 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
-              }}
-            />
-            {/* Narożniki jak na rysunku architektonicznym */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute left-4 top-4 h-6 w-6 border-l border-t border-copper/40 sm:left-6 sm:top-6"
-            />
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-4 right-4 h-6 w-6 border-b border-r border-copper/40 sm:bottom-6 sm:right-6"
-            />
-
             <div
               style={{ paddingTop: "calc(env(safe-area-inset-top) + 1rem)" }}
-              className="relative flex shrink-0 items-center justify-between px-4 pb-2 sm:px-6"
+              className="flex shrink-0 items-center justify-between px-4 pb-2 sm:px-6"
             >
               <a
                 href="#start"
@@ -217,79 +197,73 @@ export default function Navbar() {
               <HamburgerButton open={mobileOpen} onClick={() => setMobileOpen(false)} />
             </div>
 
-            <div
-              style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 2rem)" }}
-              className="relative flex flex-1 flex-col justify-between overflow-y-auto px-4 pt-6 sm:px-6"
+            {/* Nawigacja wyśrodkowana — spokojny, minimalny układ */}
+            <nav className="flex flex-1 flex-col items-start justify-center gap-1 px-6 sm:px-8">
+              {NAV_LINKS.map((link, i) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.045, duration: 0.4, ease: EASE }}
+                  data-cursor-hover
+                  className="group py-2.5 active:opacity-60"
+                >
+                  <span className="font-sora text-3xl font-light text-bone transition-colors group-hover:text-copper sm:text-4xl">
+                    {link.label}
+                  </span>
+                </motion.a>
+              ))}
+            </nav>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.08 + NAV_LINKS.length * 0.045 + 0.05,
+                duration: 0.4,
+                ease: EASE,
+              }}
+              style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1.5rem)" }}
+              className="flex shrink-0 flex-col gap-6 px-6 pt-6 sm:px-8"
             >
-              <nav className="flex flex-col">
-                {NAV_LINKS.map((link, i) => (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.12 + i * 0.05, duration: 0.5, ease: EASE }}
-                    data-cursor-hover
-                    className="group flex items-center gap-4 border-b border-bone/10 py-4 first:pt-0 active:opacity-60"
-                  >
-                    <span className="annotation text-copper/70">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-sora text-2xl font-light text-bone transition-colors group-hover:text-copper sm:text-3xl">
-                      {link.label}
-                    </span>
-                  </motion.a>
-                ))}
-              </nav>
+              <MagneticButton className="w-full !py-3.5" onClick={() => setMobileOpen(false)}>
+                Umów konsultację
+              </MagneticButton>
 
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.12 + NAV_LINKS.length * 0.05 + 0.05,
-                  duration: 0.5,
-                  ease: EASE,
-                }}
-                className="mt-10 flex flex-col gap-6"
-              >
-                <MagneticButton className="w-full !py-3.5" onClick={() => setMobileOpen(false)}>
-                  Umów konsultację
-                </MagneticButton>
+              <div className="flex items-center justify-between border-t border-bone/10 pt-6">
+                <a
+                  href="mailto:kontakt@negradesign.pl"
+                  data-cursor-hover
+                  className="flex items-center gap-2 text-xs text-bone/60 transition-colors hover:text-copper"
+                >
+                  <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />
+                  kontakt@negradesign.pl
+                </a>
 
-                <div className="flex items-center justify-between border-t border-bone/10 pt-6">
-                  <a
-                    href="mailto:kontakt@negradesign.pl"
-                    data-cursor-hover
-                    className="flex items-center gap-2 text-xs text-bone/60 transition-colors hover:text-copper"
-                  >
-                    <Mail className="h-3.5 w-3.5" strokeWidth={1.5} />
-                    kontakt@negradesign.pl
-                  </a>
-
-                  <div className="flex items-center gap-3">
-                    {SOCIALS.map(({ icon: Icon, label, href }) => (
-                      <a
-                        key={label}
-                        href={href}
-                        aria-label={label}
-                        data-cursor-hover
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors hover:border-copper hover:text-copper"
-                      >
-                        <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
-                      </a>
-                    ))}
-                    <button
+                <div className="flex items-center gap-3">
+                  {SOCIALS.map(({ icon: Icon, label, href }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      aria-label={label}
                       data-cursor-hover
-                      aria-label="Zmień język"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 text-xs text-bone/70 transition-colors hover:border-copper hover:text-copper"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 text-bone/70 transition-colors hover:border-copper hover:text-copper"
                     >
-                      PL
-                    </button>
-                  </div>
+                      <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
+                    </a>
+                  ))}
+                  <button
+                    data-cursor-hover
+                    aria-label="Zmień język"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 text-xs text-bone/70 transition-colors hover:border-copper hover:text-copper"
+                  >
+                    PL
+                  </button>
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
