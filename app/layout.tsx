@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 import NoiseOverlay from "@/components/NoiseOverlay";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 const sora = Sora({
   subsets: ["latin", "latin-ext"],
@@ -48,11 +49,13 @@ export default function RootLayout({
   return (
     <html lang="pl" className={sora.variable}>
       <body className="font-sora">
-        <SmoothScrollProvider>
-          <CustomCursor />
-          <NoiseOverlay />
-          {children}
-        </SmoothScrollProvider>
+        <LanguageProvider>
+          <SmoothScrollProvider>
+            <CustomCursor />
+            <NoiseOverlay />
+            {children}
+          </SmoothScrollProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

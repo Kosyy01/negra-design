@@ -4,27 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Instagram, Linkedin, ArrowUpRight, Check } from "lucide-react";
 import MagneticButton from "@/ui/MagneticButton";
-
-const CONTACT_DETAILS = [
-  {
-    icon: Mail,
-    label: "E-mail",
-    value: "kontakt@negradesign.pl",
-    href: "mailto:kontakt@negradesign.pl",
-  },
-  {
-    icon: Phone,
-    label: "Telefon",
-    value: "+48 000 000 000",
-    href: "tel:+48000000000",
-  },
-  {
-    icon: MapPin,
-    label: "Pracownia",
-    value: "Warszawa, Polska",
-    href: undefined,
-  },
-];
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const SOCIALS = [
   { icon: Instagram, label: "Instagram", href: "#" },
@@ -41,8 +21,30 @@ const fadeUp = {
 };
 
 export default function Kontakt() {
+  const { t } = useLanguage();
   const [form, setForm] = useState({ imie: "", email: "", wiadomosc: "" });
   const [sent, setSent] = useState(false);
+
+  const CONTACT_DETAILS = [
+    {
+      icon: Mail,
+      label: t.kontakt.details.email,
+      value: "kontakt@negradesign.pl",
+      href: "mailto:kontakt@negradesign.pl",
+    },
+    {
+      icon: Phone,
+      label: t.kontakt.details.phone,
+      value: "+48 000 000 000",
+      href: "tel:+48000000000",
+    },
+    {
+      icon: MapPin,
+      label: t.kontakt.details.studio,
+      value: t.kontakt.address,
+      href: undefined,
+    },
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -76,7 +78,7 @@ export default function Kontakt() {
           className="flex flex-col justify-center"
         >
           <motion.span variants={fadeUp} custom={0} className="annotation text-copper">
-            Rozpocznijmy projekt
+            {t.kontakt.badge}
           </motion.span>
 
           <motion.h2
@@ -84,7 +86,7 @@ export default function Kontakt() {
             custom={1}
             className="mt-6 max-w-md font-sora text-4xl font-light leading-[1.15] text-bone sm:text-5xl"
           >
-            Porozmawiajmy o Twojej inwestycji.
+            {t.kontakt.heading}
           </motion.h2>
 
           <motion.p
@@ -92,9 +94,7 @@ export default function Kontakt() {
             custom={2}
             className="mt-6 max-w-md text-balance text-sm leading-relaxed text-bone-dim sm:text-base"
           >
-            Niezależnie od etapu, na którym jesteś — od pierwszego szkicu po
-            gotową działkę — chętnie porozmawiamy o zakresie i możliwościach
-            projektu. Odpowiadamy w ciągu 48 godzin roboczych.
+            {t.kontakt.paragraph}
           </motion.p>
 
           <motion.ul variants={fadeUp} custom={3} className="mt-10 flex flex-col gap-5">
@@ -158,18 +158,17 @@ export default function Kontakt() {
                   <Check className="h-5 w-5" strokeWidth={2} />
                 </span>
                 <p className="font-sora text-xl font-light text-bone">
-                  Wiadomość została wysłana.
+                  {t.kontakt.form.sentTitle}
                 </p>
                 <p className="text-sm leading-relaxed text-bone-dim">
-                  Dziękujemy za kontakt — odezwiemy się najszybciej, jak to
-                  możliwe.
+                  {t.kontakt.form.sentDesc}
                 </p>
                 <button
                   onClick={() => setSent(false)}
                   data-cursor-hover
                   className="mt-2 text-xs uppercase tracking-widest2 text-bone-dim/70 underline-offset-4 transition-colors hover:text-copper hover:underline"
                 >
-                  Wyślij kolejną wiadomość
+                  {t.kontakt.form.sendAnother}
                 </button>
               </div>
             ) : (
@@ -177,7 +176,7 @@ export default function Kontakt() {
                 <div className="grid gap-7 sm:grid-cols-2 sm:gap-8">
                   <label className="group relative flex flex-col">
                     <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
-                      Imię i nazwisko
+                      {t.kontakt.form.name}
                     </span>
                     <input
                       type="text"
@@ -186,14 +185,14 @@ export default function Kontakt() {
                       autoComplete="name"
                       value={form.imie}
                       onChange={handleChange}
-                      placeholder="Jan Kowalski"
+                      placeholder={t.kontakt.form.namePlaceholder}
                       className="border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
                     />
                   </label>
 
                   <label className="group relative flex flex-col">
                     <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
-                      E-mail
+                      {t.kontakt.form.email}
                     </span>
                     <input
                       type="email"
@@ -203,7 +202,7 @@ export default function Kontakt() {
                       inputMode="email"
                       value={form.email}
                       onChange={handleChange}
-                      placeholder="jan@przyklad.pl"
+                      placeholder={t.kontakt.form.emailPlaceholder}
                       className="border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
                     />
                   </label>
@@ -211,7 +210,7 @@ export default function Kontakt() {
 
                 <label className="group relative flex flex-col">
                   <span className="annotation mb-2 text-bone/40 transition-colors group-focus-within:text-copper">
-                    Wiadomość
+                    {t.kontakt.form.message}
                   </span>
                   <textarea
                     name="wiadomosc"
@@ -219,19 +218,18 @@ export default function Kontakt() {
                     rows={4}
                     value={form.wiadomosc}
                     onChange={handleChange}
-                    placeholder="Opowiedz nam krótko o swoim projekcie..."
+                    placeholder={t.kontakt.form.messagePlaceholder}
                     className="resize-none border-b border-bone/20 bg-transparent py-2 pb-3 text-base text-bone placeholder:text-bone/25 outline-none transition-colors focus:border-copper"
                   />
                 </label>
 
                 <div className="mt-2 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                   <p className="text-xs leading-relaxed text-bone-dim/70">
-                    Wysyłając formularz akceptujesz przetwarzanie danych w
-                    celu kontaktu w sprawie zapytania.
+                    {t.kontakt.form.consent}
                   </p>
                   <MagneticButton className="shrink-0 justify-center !px-9 sm:w-auto">
                     <span className="flex items-center justify-center gap-2">
-                      Wyślij
+                      {t.kontakt.form.submit}
                       <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
                     </span>
                   </MagneticButton>

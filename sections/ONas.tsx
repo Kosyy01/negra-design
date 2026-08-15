@@ -3,30 +3,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Compass, Layers, Ruler } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-const STATS = [
-  { value: "12+", label: "lat na rynku" },
-  { value: "140+", label: "zrealizowanych projektów" },
-  { value: "98%", label: "zadowolonych inwestorów" },
-];
-
-const VALUES = [
-  {
-    icon: Compass,
-    title: "Precyzja projektu",
-    desc: "Każda decyzja projektowa poparta analizą — od nasłonecznienia po konstrukcję.",
-  },
-  {
-    icon: Layers,
-    title: "Jeden zespół",
-    desc: "Architekci, wnętrzarze i wizualizerzy pracują nad projektem równolegle, nie po kolei.",
-  },
-  {
-    icon: Ruler,
-    title: "Nadzór do końca",
-    desc: "Zostajemy przy inwestycji od pierwszego szkicu aż po odbiór budynku.",
-  },
-];
+const VALUE_ICONS = [Compass, Layers, Ruler];
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -40,6 +19,10 @@ const fadeUp = {
 };
 
 export default function ONas() {
+  const { t } = useLanguage();
+  const STATS = t.onas.stats;
+  const VALUES = t.onas.values.map((v, i) => ({ ...v, icon: VALUE_ICONS[i] }));
+
   return (
     <section
       id="o-nas"
@@ -60,7 +43,7 @@ export default function ONas() {
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl sm:aspect-[5/4] lg:aspect-[4/5]">
             <Image
               src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1600&auto=format&fit=crop"
-              alt="Zespół pracowni NEGRA DESIGN przy stole projektowym"
+              alt={t.onas.imageAlt}
               fill
               className="object-cover"
               sizes="(min-width: 1024px) 45vw, 100vw"
@@ -97,7 +80,7 @@ export default function ONas() {
           className="order-1 flex flex-col lg:order-2"
         >
           <motion.span variants={fadeUp} custom={0} className="annotation text-copper">
-            O nas
+            {t.onas.badge}
           </motion.span>
 
           <motion.h2
@@ -105,7 +88,7 @@ export default function ONas() {
             custom={1}
             className="mt-6 max-w-lg font-sora text-4xl font-light leading-[1.15] text-bone sm:text-5xl"
           >
-            Architektura, którą projektuje się z uwagą, nie pośpiechem.
+            {t.onas.heading}
           </motion.h2>
 
           <motion.p
@@ -113,10 +96,7 @@ export default function ONas() {
             custom={2}
             className="mt-6 max-w-lg text-balance text-sm leading-relaxed text-bone-dim sm:text-base"
           >
-            NEGRA DESIGN to pracownia architektoniczna łącząca precyzję
-            inżynierską z estetyką, która ma trwać dłużej niż jeden trend.
-            Projektujemy domy, wnętrza i przestrzenie komercyjne — zawsze
-            zaczynając od pytania „po co", a nie „jak ładnie".
+            {t.onas.paragraph}
           </motion.p>
 
           {/* Statystyki */}

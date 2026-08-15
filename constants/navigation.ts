@@ -1,10 +1,11 @@
-import { NavLink } from "@/types";
+import { NavItem } from "@/types";
 
-export const NAV_LINKS: NavLink[] = [
-  { label: "Start", href: "#start" },
-  { label: "O nas", href: "#o-nas" },
-  { label: "Usługi", href: "#uslugi" },
-  { label: "Realizacje", href: "#realizacje" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Kontakt", href: "#kontakt" },
+/** Same kotwice (href) są wspólne dla wszystkich języków — etykiety pochodzą ze słownika tłumaczeń. */
+export const NAV_ITEMS: NavItem[] = [
+  { key: "start", href: "#start" },
+  { key: "oNas", href: "#o-nas" },
+  { key: "uslugi", href: "#uslugi" },
+  { key: "realizacje", href: "#realizacje" },
+  { key: "faq", href: "#faq" },
+  { key: "kontakt", href: "#kontakt" },
 ];

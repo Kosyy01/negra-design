@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Globe, Instagram, Linkedin, Mail } from "lucide-react";
-import { NAV_LINKS } from "@/constants/navigation";
+import { Instagram, Linkedin, Mail } from "lucide-react";
+import { NAV_ITEMS } from "@/constants/navigation";
 import MagneticButton from "@/ui/MagneticButton";
+import LanguageSwitcher from "@/ui/LanguageSwitcher";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { cn } from "@/lib/utils";
 
 const SOCIALS = [
@@ -69,6 +71,7 @@ function HamburgerButton({
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -146,29 +149,24 @@ export default function Navbar() {
         </a>
 
         <nav className="hidden items-center gap-9 lg:flex">
-          {NAV_LINKS.map((link) => (
+          {NAV_ITEMS.map((item) => (
             <a
-              key={link.href}
-              href={link.href}
+              key={item.href}
+              href={item.href}
               data-cursor-hover
               className="group relative text-sm text-bone/80 transition-colors hover:text-bone"
             >
-              {link.label}
+              {t.nav[item.key]}
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-copper transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
-          <button
-            data-cursor-hover
-            aria-label="Zmień język"
-            className="flex items-center gap-1.5 text-sm text-bone/70 transition-colors hover:text-copper"
-          >
-            <Globe className="h-4 w-4" strokeWidth={1.5} />
-            PL
-          </button>
-          <MagneticButton className="!px-6 !py-2.5 !text-xs">Umów konsultację</MagneticButton>
+          <LanguageSwitcher />
+          <MagneticButton className="!px-6 !py-2.5 !text-xs">
+            {t.common.bookConsultation}
+          </MagneticButton>
         </div>
 
         <HamburgerButton open={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
@@ -199,10 +197,10 @@ export default function Navbar() {
 
             {/* Nawigacja wyśrodkowana — spokojny, minimalny układ */}
             <nav className="flex flex-1 flex-col items-start justify-center gap-1 px-6 sm:px-8">
-              {NAV_LINKS.map((link, i) => (
+              {NAV_ITEMS.map((item, i) => (
                 <motion.a
-                  key={link.href}
-                  href={link.href}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setMobileOpen(false)}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -211,7 +209,7 @@ export default function Navbar() {
                   className="group py-2.5 active:opacity-60"
                 >
                   <span className="font-sora text-3xl font-light text-bone transition-colors group-hover:text-copper sm:text-4xl">
-                    {link.label}
+                    {t.nav[item.key]}
                   </span>
                 </motion.a>
               ))}
@@ -221,15 +219,17 @@ export default function Navbar() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                delay: 0.08 + NAV_LINKS.length * 0.045 + 0.05,
+                delay: 0.08 + NAV_ITEMS.length * 0.045 + 0.05,
                 duration: 0.4,
                 ease: EASE,
               }}
               style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1.5rem)" }}
               className="flex shrink-0 flex-col gap-6 px-6 pt-6 sm:px-8"
             >
+              <LanguageSwitcher variant="mobile" />
+
               <MagneticButton className="w-full !py-3.5" onClick={() => setMobileOpen(false)}>
-                Umów konsultację
+                {t.common.bookConsultation}
               </MagneticButton>
 
               <div className="flex items-center justify-between border-t border-bone/10 pt-6">
@@ -254,13 +254,6 @@ export default function Navbar() {
                       <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
                     </a>
                   ))}
-                  <button
-                    data-cursor-hover
-                    aria-label="Zmień język"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-bone/15 text-xs text-bone/70 transition-colors hover:border-copper hover:text-copper"
-                  >
-                    PL
-                  </button>
                 </div>
               </div>
             </motion.div>

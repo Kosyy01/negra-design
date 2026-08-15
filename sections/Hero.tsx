@@ -4,14 +4,14 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useMousePosition } from "@/hooks/useMousePosition";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import MagneticButton from "@/ui/MagneticButton";
 import ScrollCue from "@/ui/ScrollCue";
-
-const TITLE_LINES = ["Każdy budynek zaczyna się", "od decyzji, której nie widać."];
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const { x, y } = useMousePosition();
+  const { t } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -62,11 +62,11 @@ export default function Hero() {
           transition={{ delay: 0.2, duration: 0.7 }}
           className="annotation mb-6 text-bone/60"
         >
-          Projekt · Wizualizacja · Realizacja
+          {t.hero.badge}
         </motion.span>
 
         <h1 className="max-w-4xl font-sora text-4xl font-light leading-[1.15] text-bone sm:text-5xl md:text-6xl lg:text-7xl">
-          {TITLE_LINES.map((line, i) => (
+          {t.hero.titleLines.map((line, i) => (
             <span key={line} className="block overflow-hidden">
               <motion.span
                 initial={{ y: "110%" }}
@@ -99,9 +99,7 @@ export default function Hero() {
           transition={{ delay: 1.0, duration: 0.7 }}
           className="mt-6 max-w-xl text-balance text-sm leading-relaxed text-bone-dim sm:text-base"
         >
-          Projektujemy architekturę, wnętrza i wizualizacje 3D dla inwestorów,
-          którzy traktują detal jako standard, a nie dodatek. Od pierwszego
-          szkicu po nadzór nad realizacją — jeden zespół, jedna wizja.
+          {t.hero.paragraph}
         </motion.p>
 
         <motion.div
@@ -110,9 +108,9 @@ export default function Hero() {
           transition={{ delay: 1.15, duration: 0.7 }}
           className="mt-10 flex flex-col items-center gap-4 sm:flex-row"
         >
-          <MagneticButton variant="filled">Umów konsultację</MagneticButton>
+          <MagneticButton variant="filled">{t.hero.ctaPrimary}</MagneticButton>
           <MagneticButton variant="outline" href="#realizacje">
-            Zobacz realizacje
+            {t.hero.ctaSecondary}
           </MagneticButton>
         </motion.div>
       </motion.div>

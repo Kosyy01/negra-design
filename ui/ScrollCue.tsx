@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function ScrollCue() {
+  const { t } = useLanguage();
   return (
     <div className="pointer-events-none absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
-      <span className="annotation rotate-0 text-bone/50">Scroll</span>
+      <span className="annotation rotate-0 text-bone/50">{t.common.scroll}</span>
       <div className="relative h-16 w-px overflow-hidden bg-bone/15">
         <motion.div
           initial={{ y: "-100%" }}
